@@ -32,7 +32,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   train_dbt:
-    +materializied view
+    +materializied: view
     bronze:
       +schema: bronze
       +materialized: table
@@ -40,8 +40,8 @@ models:
       +schema: silver
       +materialized: table
     gold:
-    +schema: gold
-    +materialized: table
+      +schema: gold
+      +materialized: table
 
 seeds:
   train_dbt:

@@ -24,7 +24,7 @@ Asennettavat paketit: `dbt-duckdb`, `duckdb`, `pyarrow`, `polars`, `requests`, `
 .
 ├── data/
 ├── dbt/
-│   └── vr_trains_dbt/
+│   └── train_dbt/
 │       ├── dbt_project.yml
 │       ├── packages.yml
 │       ├── models/
@@ -42,11 +42,11 @@ Asennettavat paketit: `dbt-duckdb`, `duckdb`, `pyarrow`, `polars`, `requests`, `
 
 ## 3) DBT setup ja init
 
-Käytä mukana tulevaa `dbt/vr_trains_dbt/dbt_project.yml` -projektia ja profiilia.
+Käytä mukana tulevaa `dbt/train_dbt/dbt_project.yml` -projektia ja profiilia.
 
 ```bash
 export DBT_PROFILES_DIR=./dbt
-cd dbt/vr_trains_dbt
+cd dbt/train_dbt
 ```
 
 Testaa yhteys:
