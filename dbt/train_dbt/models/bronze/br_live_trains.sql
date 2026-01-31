@@ -6,7 +6,7 @@
 
 with raw_payload as (
     select *
-    from read_json_auto('../data/staging/live_trains.json', sample_size=10000)
+    from read_json_auto('../../data/staging/live_trains.json', sample_size=10000)
 ),
 flattened as (
     select
@@ -16,7 +16,7 @@ flattened as (
         trainType as train_type,
         cancelled,
         version,
-        timestamp,
+        timetableAcceptanceDate::timestamp as api_timestamp
         timetableRow.stationshortcode as station_short_code,
         timetableRow.type as event_type,
         timetableRow.scheduledTime as scheduled_time,

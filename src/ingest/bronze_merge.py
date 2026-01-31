@@ -8,6 +8,9 @@ def sql_str(p: Path) -> str:
     # DuckDB SQL string literal. Tuplaa yksittäiset lainausmerkit.
     return str(p).replace("\\", "/").replace("'", "''")
 
+def sql_ident(identifier: str) -> str:
+    return '"' + identifier.replace('"', '""') + '"'
+
 def merge_live_trains(conn: duckdb.DuckDBPyConnection, json_path: Path) -> None:
     conn.execute("create schema if not exists bronze")
 
@@ -57,16 +60,21 @@ def merge_train_locations(conn: duckdb.DuckDBPyConnection, json_path: Path) -> N
         from read_json_auto('{path}')
     """)
 
-    columns = conn.execute("pragma_table_info('v_train_locations_raw')").fetchall()
-    if not columns:
+    columns = conn.execute("pragma table_info('v_train_locations_raw')").fetchall()
+    column_names = [row[1] for row in columns if row[1]]
+    if not column_names:
         print(f"Skipping train locations with no columns: {json_path}")
         return
 
-    conn.execute("""
+    pack_columns = ", ".join(
+        f"{sql_ident(name)} := {sql_ident(name)}" for name in column_names
+    )
+
+    conn.execute(f"""
         create or replace temp view v_train_locations as
         select
           *,
-          md5(cast(to_json(struct_pack(*)) as varchar)) as _row_hash
+          md5(cast(to_json(struct_pack({pack_columns})) as varchar)) as _row_hash
         from v_train_locations_raw
     """)
 
@@ -80,13 +88,11 @@ def merge_train_locations(conn: duckdb.DuckDBPyConnection, json_path: Path) -> N
         by name
         select v.*
         from v_train_locations v
-        where not exists (
-          select 1
-          from bronze.train_locations t
-          where t.trainNumber   = v.trainNumber
-            and t.departureDate = v.departureDate
-            and t._row_hash     = v._row_hash
-        )
+        left join bronze.train_locations existing
+          on existing.trainNumber   = v.trainNumber
+         and existing.departureDate = v.departureDate
+         and existing._row_hash     = v._row_hash
+        where existing.trainNumber is null
     """)
 
 def main() -> None:

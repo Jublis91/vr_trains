@@ -1,8 +1,0 @@
-vr_trains:
-  target: dev
-  outputs:
-    dev:
-      type: duckdb
-      path: ../data/vr_trains.duckdb
-      threads: 4
-      schema: main
