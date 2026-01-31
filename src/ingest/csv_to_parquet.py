@@ -12,6 +12,7 @@ def main() -> None:
     parquet_path.parent.mkdir(parents=True, exist_ok=True)
 
     conn = duckdb.connect(str(DB_PATH))
+    conn.execute("create schema if not exists bronze")
     conn.execute(
         "create or replace table bronze.sample_train_events as select * from read_csv_auto(?)",
         [str(csv_path)],

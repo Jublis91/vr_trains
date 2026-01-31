@@ -37,18 +37,37 @@ def merge_live_trains(conn: duckdb.DuckDBPyConnection, json_path: Path) -> None:
         )
     """)
 
-
 def merge_train_locations(conn: duckdb.DuckDBPyConnection, json_path: Path) -> None:
     conn.execute("create schema if not exists bronze")
+
+    if json_path.stat().st_size == 0:
+        print(f"Skipping empty train locations file: {json_path}")
+        return
+
+    raw_payload = json_path.read_text(encoding="utf-8").strip()
+    if raw_payload in {"", "[]"}:
+        print(f"Skipping empty train locations payload: {json_path}")
+        return
 
     path = sql_str(json_path)
 
     conn.execute(f"""
+        create or replace temp view v_train_locations_raw as
+        select *
+        from read_json_auto('{path}')
+    """)
+
+    columns = conn.execute("pragma_table_info('v_train_locations_raw')").fetchall()
+    if not columns:
+        print(f"Skipping train locations with no columns: {json_path}")
+        return
+
+    conn.execute("""
         create or replace temp view v_train_locations as
         select
           *,
-          md5(cast(to_json(*) as varchar)) as _row_hash
-        from read_json_auto('{path}')
+          md5(cast(to_json(struct_pack(*)) as varchar)) as _row_hash
+        from v_train_locations_raw
     """)
 
     conn.execute("""
