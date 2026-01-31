@@ -1,0 +1,30 @@
+[0m14:10:33.848006 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002355043CA00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000235514E7C10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000235514E7F40>]}
+
+
+============================== 14:10:33.853005 | 008c623b-30c4-4ecd-81bb-33aee643b7ac ==============================
+[0m14:10:33.853005 [info ] [MainThread]: Running with dbt=1.11.2
+[0m14:10:33.854004 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\Juuso\\.dbt', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt init train_dbt', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m14:10:33.882007 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\Juuso\.dbt
+[0m14:10:33.886003 [debug] [MainThread]: Starter project path: D:\code\vr_trains\venv\lib\site-packages\dbt\include\starter_project
+[0m14:10:33.961005 [info ] [MainThread]: 
+Your new dbt project "train_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m14:10:33.962004 [info ] [MainThread]: Setting up your profile.
+[0m14:10:48.898476 [info ] [MainThread]: Profile train_dbt written to C:\Users\Juuso\.dbt\profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m14:10:48.899475 [debug] [MainThread]: Command `dbt init` succeeded at 14:10:48.899475 after 15.14 seconds
+[0m14:10:48.900475 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002355043CA00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000235515EBDC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000235514E7E80>]}
+[0m14:10:48.901477 [debug] [MainThread]: Flushing usage events
+[0m14:10:49.530473 [debug] [MainThread]: An error was encountered while trying to flush usage events

@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_live_trains
+    description: 'Staged live train events from Digitraffic.'
+    columns:
+      - name: train_event_id
+        tests:
+          - unique
+          - not_null
+      - name: train_number
+        tests:
+          - not_null
