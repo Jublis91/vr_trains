@@ -1,9 +1,9 @@
+from datetime import datetime, timedelta
+from pathlib import Path
+
 import argparse
 import json
 import requests
-
-from datetime import datetime, timedelta
-from pathlib import Path
 
 BASE_URL = "http://rata.digitraffic.fi/api/v1"
 
@@ -12,13 +12,17 @@ def fetch_live_trains(station: str, days: int) -> list[dict]:
         "station": station,
         "arrived_trains": 50,
         "departed_trains": 50,
-        "include_nonstopping": False, 
+        "include_nonstopping": False,
     }
     response = requests.get(f"{BASE_URL}/live_trains", params=params, timeout=30)
     response.raise_for_status()
     payload = response.json()
-    cutoff  =datetime.utcnow() - timedelta(days=days)
-    return[item for item in payload if datetime.fromisoformat(item["departureDate"]) >= cutoff]
+    cutoff = datetime.utcnow() - timedelta(days=days)
+    return [
+        item
+        for item in payload
+        if datetime.fromisoformat(item["departureDate"]) >= cutoff
+    ]
 
 def fetch_train_location(train_numbers: list[int]) -> list[dict]:
     locations = []
@@ -53,8 +57,10 @@ def main() -> None:
     locations = fetch_train_location(train_numbers[:20])
 
     write_json(output_dir / "live_trains.json", live_trains)
-    write_ndjson(output_dir / "live_locations.json", live_trains)
+    write_ndjson(output_dir / "live_trains.ndjson", live_trains)
     write_json(output_dir / "train_locations.json", locations)
+    write_ndjson(output_dir / "train_locations.ndjson", locations)
+
 
     print(f"Saved {len(live_trains)} live trains to {output_dir}")
     print(f"Saved {len(locations)} train locations to {output_dir}")
