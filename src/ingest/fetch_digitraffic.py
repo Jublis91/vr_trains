@@ -5,7 +5,7 @@ import argparse
 import json
 import requests
 
-BASE_URL = "http://rata.digitraffic.fi/api/v1"
+BASE_URL = "https://rata.digitraffic.fi/api/v1"
 
 def fetch_live_trains(station: str, days: int) -> list[dict]:
     params = {
@@ -14,7 +14,7 @@ def fetch_live_trains(station: str, days: int) -> list[dict]:
         "departed_trains": 50,
         "include_nonstopping": False,
     }
-    response = requests.get(f"{BASE_URL}/live_trains", params=params, timeout=30)
+    response = requests.get(f"{BASE_URL}/live-trains", params=params, timeout=30)
     response.raise_for_status()
     payload = response.json()
     cutoff = datetime.utcnow() - timedelta(days=days)
