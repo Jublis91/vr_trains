@@ -3,7 +3,7 @@
 }}
 
 select
-    tain_event_id,
+    train_event_id,
     train_number,
     departure_date,
     station_short_code as station_id,

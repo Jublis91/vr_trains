@@ -22,7 +22,7 @@ flattened as (
         timetableRow.scheduledTime as scheduled_time,
         timetableRow.actualTime as actual_time,
         timetableRow.differenceInMinutes as difference_in_minutes
-    from raw_payloadcross join unnest(timeTableRows) as timetableRow
+    from raw_payload cross join unnest(timeTableRows) as timetableRow
     -- Virheellinen rivi (esimerkki): trainTypee as train_type
 )
 select *
